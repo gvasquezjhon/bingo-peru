@@ -51,14 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const participantsTh = document.createElement('th');
         participantsTh.textContent = 'Participantes';
         participantsTh.colSpan = state.participants;
-        participantsTh.className = 'p-2 border border-slate-600 bg-slate-700';
+        participantsTh.className = 'p-2 border border-green-600 bg-green-700';
         headerRow.appendChild(participantsTh);
 
         // BINGO headers
         ['B', 'I', 'N', 'G', 'O'].forEach(letter => {
             const th = document.createElement('th');
             th.textContent = letter;
-            th.className = 'p-2 border border-slate-600 bg-amber-500 text-slate-900 font-bold';
+            th.className = 'p-2 border border-green-600 bg-yellow-500 text-green-900 font-bold';
             headerRow.appendChild(th);
         });
         boardHeader.appendChild(headerRow);
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const textColor = getTextColorForBg(bgColor);
                 td.style.backgroundColor = bgColor;
                 td.style.color = textColor;
-                td.className = 'p-2 border border-slate-600 min-w-[150px] focus:outline-none focus:ring-2 focus:ring-amber-400';
+                td.className = 'p-2 border border-green-600 min-w-[150px] focus:outline-none focus:ring-2 focus:ring-yellow-400';
                 td.dataset.rowIndex = i;
                 td.dataset.participantIndex = j;
                 bodyRow.appendChild(td);
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const td = document.createElement('td');
                 td.textContent = number;
                 td.id = `cell-${number}`;
-                td.className = 'p-2 border border-slate-600 font-mono text-lg';
+                td.className = 'p-2 border border-green-600 font-mono text-lg';
                 bodyRow.appendChild(td);
             });
             boardBody.appendChild(bodyRow);
@@ -163,7 +163,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function highlightNumberOnBoard(number) {
         const cell = document.getElementById(`cell-${number}`);
         if (cell) {
-            cell.classList.add('bg-amber-400', 'text-slate-900', 'font-bold', 'rounded-lg');
+            // Reset class list to base, then add highlighting styles
+            cell.className = 'p-2 border border-green-600 font-mono text-lg text-center';
+            cell.classList.add(
+                'bg-yellow-400',
+                'text-green-900',
+                'font-bold',
+                'rounded-full', // Makes it a circle, like a chip
+                'scale-110', // Pop effect
+                'shadow-lg',
+                'shadow-yellow-400/50' // Glowing effect
+            );
+            cell.style.transition = 'transform 0.2s ease-in-out, background-color 0.2s';
         }
     }
 
@@ -333,9 +344,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (games.length === 0) {
             return '<p>No hay partidas en el historial.</p>';
         }
-        let table = '<table class="w-full text-left border-collapse"><thead><tr><th class="p-2 border-b border-slate-600">ID</th><th class="p-2 border-b border-slate-600">Inicio</th><th class="p-2 border-b border-slate-600">Fin</th><th class="p-2 border-b border-slate-600">Cartones</th><th class="p-2 border-b border-slate-600">Jugadores</th></tr></thead><tbody>';
+        let table = '<table class="w-full text-left border-collapse"><thead><tr><th class="p-2 border-b border-green-600">ID</th><th class="p-2 border-b border-green-600">Inicio</th><th class="p-2 border-b border-green-600">Fin</th><th class="p-2 border-b border-green-600">Cartones</th><th class="p-2 border-b border-green-600">Jugadores</th></tr></thead><tbody>';
         games.forEach(game => {
-            table += `<tr class="border-t border-slate-700 hover:bg-slate-700">
+            table += `<tr class="border-t border-green-700 hover:bg-green-700">
                 <td class="p-2">${game.id}</td>
                 <td class="p-2">${new Date(game.start_time).toLocaleString()}</td>
                 <td class="p-2">${game.end_time ? new Date(game.end_time).toLocaleString() : 'En curso'}</td>
@@ -351,9 +362,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (winners.length === 0) {
             return '<p>Todavía no hay ganadores registrados.</p>';
         }
-        let table = '<table class="w-full text-left border-collapse"><thead><tr><th class="p-2 border-b border-slate-600">Fecha</th><th class="p-2 border-b border-slate-600">Nombre</th><th class="p-2 border-b border-slate-600">Fila Ganadora</th><th class="p-2 border-b border-slate-600">ID Partida</th></tr></thead><tbody>';
+        let table = '<table class="w-full text-left border-collapse"><thead><tr><th class="p-2 border-b border-green-600">Fecha</th><th class="p-2 border-b border-green-600">Nombre</th><th class="p-2 border-b border-green-600">Fila Ganadora</th><th class="p-2 border-b border-green-600">ID Partida</th></tr></thead><tbody>';
         winners.forEach(winner => {
-            table += `<tr class="border-t border-slate-700 hover:bg-slate-700">
+            table += `<tr class="border-t border-green-700 hover:bg-green-700">
                 <td class="p-2">${new Date(winner.timestamp).toLocaleString()}</td>
                 <td class="p-2">${winner.participant_name}</td>
                 <td class="p-2">${winner.winning_row_index + 1}</td>
